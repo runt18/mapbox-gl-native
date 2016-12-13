@@ -107,7 +107,12 @@ public final class PolygonOptions implements Parcelable {
         }
         return this;
     }
-
+    /**
+     * Adds a hole to the outline of the polygon being built.
+     *
+     * @param points {@link Iterable} list made up of {@link LatLng} points defining the hole
+     * @return This {@link PolygonOptions} object with the given hole added to the outline.
+     */
     public PolygonOptions addHole(Iterable<LatLng> points) {
         List<LatLng> hole = new ArrayList<LatLng>();
         for (LatLng point : points) {
@@ -115,7 +120,7 @@ public final class PolygonOptions implements Parcelable {
         }
 
         polygon.addHole(hole);
-        
+
         return this;
     }
 
@@ -193,17 +198,20 @@ public final class PolygonOptions implements Parcelable {
         return polygon.getPoints();
     }
 
+    /**
+     * Gets the holes set for this {@link PolygonOptions} object.
+     */
     public List<List<LatLng>> getHoles() {
         return polygon.getHoles();
     }
 
     /**
      * Compares this {@link PolygonOptions} object with another {@link PolygonOptions} and
-     * determines if their color, alpha, stroke color, and vertices match.
+     * determines if their color, alpha, stroke color, vertices, and holes match.
      *
      * @param o Another {@link PolygonOptions} to compare with this object.
-     * @return True if color, alpha, stroke color, and vertices match this {@link PolygonOptions}
-     * object. Else, false.
+     * @return True if color, alpha, stroke color, vertices, and holes match this
+     * {@link PolygonOptions} object. Else, false.
      */
     @Override
     public boolean equals(Object o) {
@@ -215,8 +223,8 @@ public final class PolygonOptions implements Parcelable {
         if (Float.compare(polygon.getAlpha(), getAlpha()) != 0) return false;
         if (getFillColor() != polygon.getFillColor()) return false;
         if (getStrokeColor() != polygon.getStrokeColor()) return false;
-        if (getHoles() != null ? !getHoles().equals(polygon.getHoles()) : polygon.getHoles() != null) return false;
-        return !(getPoints() != null ? !getPoints().equals(polygon.getPoints()) : polygon.getPoints() != null);
+        if (getPoints() != null ? !getPoints().equals(polygon.getPoints()) : polygon.getPoints() != null) return false;
+        return !(getHoles() != null ? !getHoles().equals(polygon.getHoles()) : polygon.getHoles() != null);
     }
 
     /**
