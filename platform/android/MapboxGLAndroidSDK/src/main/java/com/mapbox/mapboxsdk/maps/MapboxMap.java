@@ -1540,8 +1540,7 @@ public final class MapboxMap {
      */
     @UiThread
     public void snapshot(@NonNull SnapshotReadyCallback callback, @Nullable final Bitmap bitmap) {
-        // FIXME 12/02/2016
-        //mapView.snapshot(callback, bitmap);
+        nativeMapView.addSnapshotCallback(callback, bitmap);
     }
 
     /**
@@ -1551,8 +1550,7 @@ public final class MapboxMap {
      */
     @UiThread
     public void snapshot(@NonNull SnapshotReadyCallback callback) {
-        // FIXME 12/02/2016
-        //mapView.snapshot(callback, null);
+        snapshot(callback, null);
     }
 
     /**
