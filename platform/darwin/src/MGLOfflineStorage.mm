@@ -317,6 +317,10 @@ NSString * const MGLOfflinePackMaximumCountUserInfoKey = MGLOfflinePackUserInfoK
     return attributes.fileSize;
 }
 
+- (void)setURLSchemeTemplate:(nullable NSString *)tpl forScheme:(NSString *)scheme {
+    self.mbglFileSource->setURLSchemeTemplate(scheme.UTF8String, tpl.UTF8String);
+}
+
 #pragma mark MGLOfflinePackDelegate methods
 
 - (void)offlinePack:(MGLOfflinePack *)pack progressDidChange:(__unused MGLOfflinePackProgress)progress {
