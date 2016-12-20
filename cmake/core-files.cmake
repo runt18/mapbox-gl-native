@@ -221,6 +221,8 @@ set(MBGL_CORE_FILES
     src/mbgl/style/cross_faded_property_evaluator.cpp
     src/mbgl/style/cross_faded_property_evaluator.hpp
     src/mbgl/style/function.cpp
+    src/mbgl/style/group_by_layout.cpp
+    src/mbgl/style/group_by_layout.hpp
     src/mbgl/style/layer.cpp
     src/mbgl/style/layer_impl.cpp
     src/mbgl/style/layer_impl.hpp

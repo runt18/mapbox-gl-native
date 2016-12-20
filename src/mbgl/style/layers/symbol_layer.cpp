@@ -27,9 +27,12 @@ std::unique_ptr<Layer> SymbolLayer::Impl::clone() const {
 std::unique_ptr<Layer> SymbolLayer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<SymbolLayer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = SymbolPaintProperties();
     return std::move(result);
+}
+
+bool SymbolLayer::Impl::lessLayout(const Layer::Impl& other) const {
+    return layout < dynamic_cast<const SymbolLayer::Impl&>(other).layout;
 }
 
 // Source

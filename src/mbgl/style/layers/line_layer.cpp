@@ -27,9 +27,12 @@ std::unique_ptr<Layer> LineLayer::Impl::clone() const {
 std::unique_ptr<Layer> LineLayer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<LineLayer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = LinePaintProperties();
     return std::move(result);
+}
+
+bool LineLayer::Impl::lessLayout(const Layer::Impl& other) const {
+    return layout < dynamic_cast<const LineLayer::Impl&>(other).layout;
 }
 
 // Source

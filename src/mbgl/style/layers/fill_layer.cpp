@@ -27,9 +27,13 @@ std::unique_ptr<Layer> FillLayer::Impl::clone() const {
 std::unique_ptr<Layer> FillLayer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<FillLayer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = FillPaintProperties();
     return std::move(result);
+}
+
+bool FillLayer::Impl::lessLayout(const Layer::Impl& other) const {
+    (void)other;
+    return false;
 }
 
 // Source

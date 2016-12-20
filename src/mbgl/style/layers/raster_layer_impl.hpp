@@ -11,6 +11,7 @@ class RasterLayer::Impl : public Layer::Impl {
 public:
     std::unique_ptr<Layer> clone() const override;
     std::unique_ptr<Layer> cloneRef(const std::string& id) const override;
+    bool lessLayout(const Layer::Impl&) const override;
 
     void cascade(const CascadeParameters&) override;
     bool evaluate(const PropertyEvaluationParameters&) override;

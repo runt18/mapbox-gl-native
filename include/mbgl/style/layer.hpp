@@ -116,6 +116,8 @@ public:
 
     // Private implementation
     const std::unique_ptr<Impl> baseImpl;
+
+    friend class LessLayout;
 };
 
 } // namespace style

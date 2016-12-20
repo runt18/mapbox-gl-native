@@ -40,9 +40,17 @@ std::unique_ptr<Layer> <%- camelize(type) %>Layer::Impl::clone() const {
 std::unique_ptr<Layer> <%- camelize(type) %>Layer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<<%- camelize(type) %>Layer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = <%- camelize(type) %>PaintProperties();
     return std::move(result);
+}
+
+bool <%- camelize(type) %>Layer::Impl::lessLayout(const Layer::Impl& other) const {
+<% if (layoutProperties.length) { -%>
+    return layout < dynamic_cast<const <%- camelize(type) %>Layer::Impl&>(other).layout;
+<% } else { -%>
+    (void)other;
+    return false;
+<% } -%>
 }
 
 <% if (type !== 'background') { -%>

@@ -26,9 +26,13 @@ std::unique_ptr<Layer> BackgroundLayer::Impl::clone() const {
 std::unique_ptr<Layer> BackgroundLayer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<BackgroundLayer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = BackgroundPaintProperties();
     return std::move(result);
+}
+
+bool BackgroundLayer::Impl::lessLayout(const Layer::Impl& other) const {
+    (void)other;
+    return false;
 }
 
 

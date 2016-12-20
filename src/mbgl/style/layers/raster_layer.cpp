@@ -27,9 +27,13 @@ std::unique_ptr<Layer> RasterLayer::Impl::clone() const {
 std::unique_ptr<Layer> RasterLayer::Impl::cloneRef(const std::string& id_) const {
     auto result = std::make_unique<RasterLayer>(*this);
     result->impl->id = id_;
-    result->impl->ref = this->id;
     result->impl->paint = RasterPaintProperties();
     return std::move(result);
+}
+
+bool RasterLayer::Impl::lessLayout(const Layer::Impl& other) const {
+    (void)other;
+    return false;
 }
 
 // Source
