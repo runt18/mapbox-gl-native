@@ -14,6 +14,14 @@
     return [MGLStyleFunction functionWithStops:stops];
 }
 
++ (instancetype)valueWithIntervalStops:(NSDictionary *)stops {
+    return [MGLStyleIntervalFunction functionWithIntervalStops:stops];
+}
+
++ (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)stops {
+    return [MGLStyleSourceFunction functionWithAttributeName:attributeName categoricalStops:stops];
+}
+
 @end
 
 @implementation MGLStyleConstantValue
@@ -87,6 +95,79 @@
 
 - (NSUInteger)hash {
     return self.base + self.stops.hash;
+}
+
+@end
+
+@implementation MGLStyleIntervalFunction
+
+#pragma mark Creating a Style Interval Function
+
++ (instancetype)functionWithIntervalStops:(NSDictionary *)stops {
+    return [[self alloc] initWithIntervalStops:stops];
+}
+
+#pragma mark Initializing a Style Interval Function
+
+- (instancetype)init {
+    return [self initWithIntervalStops:@{}];
+}
+
+- (instancetype)initWithIntervalStops:(NSDictionary *)stops {
+    if (self == [super init]) {
+        _stops = stops;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, stops = %@>", NSStringFromClass([self class]), (void *)self, self.stops];
+}
+
+- (BOOL)isEqual:(MGLStyleIntervalFunction *)other {
+    return ([other isKindOfClass:[self class]] && [other.stops isEqualToDictionary:self.stops]);
+}
+
+- (NSUInteger)hash {
+    return self.stops.hash;
+}
+
+@end
+
+@implementation MGLStyleSourceFunction
+
+#pragma mark Creating a Style Interval Function
+
++ (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)stops {
+    return [[self alloc] initWithAttributeName:attributeName categoricalStops:stops];
+}
+
+#pragma mark Initializing a Style Interval Function
+
+- (instancetype)init {
+    return [self initWithAttributeName:@"" categoricalStops:@{}];
+}
+
+- (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)stops {
+    if (self == [super init]) {
+        _attributeName = attributeName;
+        _stops = stops;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, attributeName = %@, stops = %@>", NSStringFromClass([self class]), (void *)self, self.attributeName, self.stops];
+}
+
+- (BOOL)isEqual:(MGLStyleSourceFunction *)other {
+    return ([other isKindOfClass:[self class]] &&
+            [other.attributeName isEqual:self.attributeName] &&
+            [other.stops isEqualToDictionary:self.stops]);
+}
+
+- (NSUInteger)hash {
+    return self.attributeName.hash + self.stops.hash;
 }
 
 @end

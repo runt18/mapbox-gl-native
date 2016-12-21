@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
  An `MGLStyleValue` object is a generic container for a style attribute value.
  The layout and paint attribute properties of `MGLStyleLayer` can be set to
  `MGLStyleValue` objects.
- 
+
  The `MGLStyleValue` class itself represents a class cluster. Under the hood, a
  particular `MGLStyleValue` object may be either an `MGLStyleConstantValue` to
  represent a constant value or an `MGLStyleFunction` to represent a value
@@ -56,6 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
  @return An `MGLStyleFunction` object with the given base and stops.
  */
 + (instancetype)valueWithBase:(CGFloat)base stops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
+
+// TODO: API docs
++ (instancetype)valueWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
+
+// TODO: API docs
++ (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops;
 
 @end
 
@@ -170,6 +176,57 @@ NS_ASSUME_NONNULL_BEGIN
  as a stop value.
  */
 @property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
+
+@end
+
+/**
+ An `MGLStyleIntervalFunction` is a value function defining a style value that 
+ changes as the zoom level changes over a discrete domain. The layout and paint 
+ attribute properties of an `MGLStyleLayer` object can be set to 
+ `MGLStyleIntervalFunction` objects. Use a zoom level function to create the 
+ illusion of depth and control data density.
+
+ The `MGLStyleIntervalFunction` class takes a generic parameter `T` that indicates the
+ Foundation class being wrapped by this class.
+ */
+@interface MGLStyleIntervalFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Interval Function
+
+// TODO: API docs
++ (instancetype)functionWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
+
+#pragma mark Initializing a Style Interval Function
+
+// TODO: API docs
+- (instancetype)initWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Accessing the Parameters of a Function
+
+// TODO: API docs
+@property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
+
+@end
+
+@interface MGLStyleSourceFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Interval Function
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops;
+
+#pragma mark Initializing a Style Interval Function
+
+// TODO: API docs
+- (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Accessing the Parameters of a Function
+
+@property (nonatomic, copy) NSString *attributeName;
+
+// TODO: API docs
+@property (nonatomic, copy) NSDictionary<id, MGLStyleValue<T> *> *stops;
+
 
 @end
 

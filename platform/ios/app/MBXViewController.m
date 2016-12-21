@@ -189,6 +189,10 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
         }
         [self presentViewController:alertController animated:YES completion:nil];
     }
+
+    // Temp
+    NSURL *url = [[NSURL alloc] initWithString:@"mapbox://styles/boundsj/ciws3kslm00n82qqou2hnrow9"];
+    [self.mapView setStyleURL:url];
 }
 
 - (void)saveState:(__unused NSNotification *)notification
@@ -791,7 +795,7 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
 - (void)styleBuildingLayer
 {
     MGLFillStyleLayer *buildingLayer = (MGLFillStyleLayer *)[self.mapView.style layerWithIdentifier:@"building"];
-    buildingLayer.fillColor = [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blackColor]];
+    buildingLayer.fillColor = [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor purpleColor]];
 }
 
 - (void)styleFerryLayer
@@ -1636,6 +1640,44 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
         }
         self.hudLabel.text = [NSString stringWithFormat:@"Visible: %ld  Queued: %ld", (unsigned long)mapView.visibleAnnotations.count, (unsigned long)queuedAnnotations];
     }
+}
+
+// Temp
+- (void)mapViewDidFinishLoadingMap:(MGLMapView *)mapView
+{
+    MGLCircleStyleLayer *circleLayer = (MGLCircleStyleLayer *)[self.mapView.style layerWithIdentifier:@"rgb-8wbkum"];
+
+    // Data driven, constant ✔︎
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]];
+
+    // Data driven, camera exponential ✔︎
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithBase:1.0
+    //                                                            stops:@{ @0.0:  [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
+    //                                                                     @10.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
+    //                                                                     @15.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]] }];
+
+    // Data driven, camera interval ✔︎
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithIntervalStops:@{ @0.0:  [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
+    //                                                                              @12.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
+    //                                                                              @18.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]] }];
+
+    // Data driven, categorical with string attribute key ✔︎
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"color"
+    //                                                          categoricalStops:@{ @"red": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]],
+    //                                                                              @"blue": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
+    //                                                                              @"green": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],}];
+
+    // Data driven, categorical with integer attribute key ✔︎
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"temp"
+    //                                                          categoricalStops:@{ [NSNumber numberWithInt:0]:   [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
+    //                                                                              [NSNumber numberWithInt:100]: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor orangeColor]] }];
+
+    // Data driven, categorical with bool attribute key ✔︎
+    // circleLayer.circleBlur = [MGLStyleValue<NSNumber *> valueWithAttributeName:@"fuzzy"
+    //                                                          categoricalStops:@{ [NSNumber numberWithBool:@NO]:  [MGLStyleValue<NSNumber *> valueWithRawValue:[NSNumber numberWithDouble:2.0]],
+    //                                                                              [NSNumber numberWithBool:@YES]: [MGLStyleValue<NSNumber *> valueWithRawValue:[NSNumber numberWithDouble:2.0]] }];
+
+
 }
 
 @end
