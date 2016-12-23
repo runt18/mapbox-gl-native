@@ -169,7 +169,7 @@ class MGLDocumentationExampleTests: XCTestCase {
             .maximumZoomLevel: 16,
             .tileSize: 512,
             .attributionInfos: [
-            MGLAttributionInfo(title: NSAttributedString(string: "© Mapbox"), url: URL(string: "http://mapbox.com"))
+                MGLAttributionInfo(title: NSAttributedString(string: "© Mapbox"), url: URL(string: "http://mapbox.com"))
             ]
         ])
         mapView.style.addSource(source)
