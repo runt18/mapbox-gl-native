@@ -1,0 +1,172 @@
+<!--
+  This file is generated.
+  Edit platform/darwin/scripts/generate-style-code.js, then run `make style-code-darwin`.
+-->
+# Information for Style Authors
+
+A _style_ defines a map view’s content and appearance. If you’ve authored a
+style using
+[Mapbox Studio’s Styles editor](https://www.mapbox.com/studio/styles/) or as
+JSON in a text editor, you can use that style in this SDK and manipulate it
+afterwards in code.
+
+## Setting the style
+
+You set an `MGLMapView` object’s style either in code, by setting the
+`MGLMapView.styleURL` property, or in Interface Builder, by setting the “Style
+URL” inspectable. The URL must point to a local or remote style JSON file. The
+style JSON file format is defined by the
+[Mapbox Style Specification](https://www.mapbox.com/mapbox-gl-style-spec/). This
+SDK supports the functionality defined by version 8 of the specification unless
+otherwise noted in the
+[style specification documentation](https://www.mapbox.com/mapbox-gl-style-spec/).
+
+## Manipulating the style at runtime
+
+The _runtime styling API_ enables you to modify every aspect of a style
+dynamically as a user interacts with your application. The style itself is
+represented at runtime by an `MGLStyle` object, which provides access to various
+`MGLSource` and `MGLStyleLayer` objects that represent content sources and style
+layers, respectively.
+
+The names of runtime styling classes and properties on iOS and macOS are
+generally consistent with the style specification and Mapbox Studio’s style
+editor. Any exceptions are listed in this document.
+
+To avoid conflicts with Objective-C keywords or Cocoa terminology, this SDK uses
+the following terms for concepts defined in the style specification:
+
+In the style specification | In the SDK
+---------------------------|---------
+class                      | style class
+filter                     | predicate
+id                         | identifier
+image                      | style image
+layer                      | style layer
+property                   | attribute
+SDF icon                   | template image
+source                     | content source
+
+## Specifying the map’s content
+
+Each source defined by a style JSON file is represented at runtime by a content
+source object that you can use to initialize new style layers. The content
+source object is a member of one of the following subclasses of `MGLSource`:
+
+In style JSON | In the SDK
+--------------|-----------
+`geojson`     | `MGLShapeSource`
+`raster`      | `MGLRasterSource`
+`vector`      | `MGLVectorSource`
+
+`image` and `video` sources are not supported.
+
+## Configuring the map content’s appearance
+
+Each layer defined by the style JSON file is represented at runtime by a style
+layer object, which you can use to refine the map’s appearance. The style layer
+object is a member of one of the following subclasses of `MGLStyleLayer`:
+
+In style JSON | In the SDK
+--------------|-----------
+`fill` | `MGLFillStyleLayer`
+`line` | `MGLLineStyleLayer`
+`symbol` | `MGLSymbolStyleLayer`
+`circle` | `MGLCircleStyleLayer`
+`raster` | `MGLRasterStyleLayer`
+`background` | `MGLBackgroundStyleLayer`
+
+You configure layout and paint attributes by setting properties on these style
+layer objects. The property names generally correspond to the style JSON
+properties, except for the use of camelCase instead of kebab-case. Properties
+whose names differ from the style specification are listed below:
+
+### Fill style layers
+
+In style JSON | In the SDK
+--------------|-----------
+`fill-antialias` | `MGLFillStyleLayer.fillAntialiased`
+
+### Line style layers
+
+In style JSON | In the SDK
+--------------|-----------
+`line-dasharray` | `MGLLineStyleLayer.lineDashPattern`
+
+### Symbol style layers
+
+In style JSON | In the SDK
+--------------|-----------
+`icon-allow-overlap` | `MGLSymbolStyleLayer.iconAllowsOverlap`
+`icon-ignore-placement` | `MGLSymbolStyleLayer.iconIgnoresPlacement`
+`icon-image` | `MGLSymbolStyleLayer.iconImageName`
+`icon-rotate` | `MGLSymbolStyleLayer.iconRotation`
+`icon-size` | `MGLSymbolStyleLayer.iconScale`
+`icon-keep-upright` | `MGLSymbolStyleLayer.keepsIconUpright`
+`text-keep-upright` | `MGLSymbolStyleLayer.keepsTextUpright`
+`text-max-angle` | `MGLSymbolStyleLayer.maximumTextAngle`
+`text-max-width` | `MGLSymbolStyleLayer.maximumTextWidth`
+`symbol-avoid-edges` | `MGLSymbolStyleLayer.symbolAvoidsEdges`
+`text-allow-overlap` | `MGLSymbolStyleLayer.textAllowsOverlap`
+`text-ignore-placement` | `MGLSymbolStyleLayer.textIgnoresPlacement`
+`text-justify` | `MGLSymbolStyleLayer.textJustification`
+`text-rotate` | `MGLSymbolStyleLayer.textRotation`
+
+### Raster style layers
+
+In style JSON | In the SDK
+--------------|-----------
+`raster-brightness-max` | `MGLRasterStyleLayer.maximumRasterBrightness`
+`raster-brightness-min` | `MGLRasterStyleLayer.minimumRasterBrightness`
+`raster-hue-rotate` | `MGLRasterStyleLayer.rasterHueRotation`
+
+## Setting attribute values
+
+Each property representing a layout or paint attribute is set to an
+`MGLStyleValue` object, which is either an `MGLStyleConstantValue` object (for
+constant values) or an `MGLStyleFunction` object (for zoom level functions). The
+style value object is a container for the raw value or function parameters that
+you want the attribute to be set to.
+
+In contrast to the JSON type that the style specification defines for each
+layout or paint property, the style value object often contains a more specific
+Foundation or Cocoa type. General rules for attribute types are listed below.
+Pay close attention to the SDK documentation for the attribute you want to set.
+
+In style JSON | In Objective-C        | In Swift
+--------------|-----------------------|---------
+Color         | `NSColor` (macOS)<br>`UIColor` (iOS) | `NSColor` (macOS)<br>`UIColor` (iOS)
+Enum          | `NSValue` (see `NSValue(MGLAdditions)`) | `NSValue` (see `NSValue(MGLAdditions)`)
+String        | `NSString`            | `String`
+Boolean       | `NSNumber.boolValue`  | `NSNumber.boolValue`
+Number        | `NSNumber.floatValue` | `NSNumber.floatValue`
+Array (`-dasharray`) | `NSArray<NSNumber>` | `[NSNumber]`
+Array (`-font`) | `NSArray<NSString>` | `[String]`
+Array (`-offset`, `-translate`) | `CGVector` | `CGVector`
+Array (`-padding`) | `NSEdgeInsets` (macOS)<br>`UIEdgeInsets` (iOS) | `NSEdgeInsets` (macOS)<br>`UIEdgeInsets` (iOS)
+
+## Filtering sources
+
+You can filter a shape or vector source by setting the
+`MGLVectorStyleLayer.predicate` property to an `NSPredicate` object. Below is a
+table of style JSON operators and the corresponding operators used in the
+predicate format string:
+
+In style JSON | In the format string
+--------------|---------------------
+`has`         | `CONTAINS`
+`!has`        | `NOT(… CONTAINS …)`
+`==`          | `==`
+`!=`          | `!=`
+`>`           | `>`
+`>=`          | `>=`
+`<`           | `<`
+`<=`          | `<=`
+`in`          | `IN`
+`!in`         | `NOT(… IN …)`
+`all`         | `AND`
+`any`         | `OR`
+`none`        | `NOT`
+
+See the `MGLVectorStyleLayer.predicate` documentation for a full description of
+the supported operators and operand types.
