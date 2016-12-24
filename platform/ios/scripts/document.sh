@@ -46,7 +46,7 @@ jazzy \
     --framework-root ${FRAMEWORK_PATH} \
     --umbrella-header "${FRAMEWORK_PATH}/Headers/Mapbox.h" \
     --readme ${README} \
-    --documentation="platform/ios/docs/Info.plist Keys.md" \
+    --documentation="platform/{darwin,ios}/docs/guides/*.md" \
     --root-url https://www.mapbox.com/ios-sdk/api/${RELEASE_VERSION}/ \
     --theme ${THEME} \
     --output ${OUTPUT}
