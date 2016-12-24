@@ -80,10 +80,10 @@ other than `MGLPointAnnotation` to straddle the antimeridian.
 The following GeoJSON data types correspond straightforwardly to Foundation data
 types when they occur as feature identifiers or property values:
 
-GeoJSON data type  | Foundation data type and property
--------------------|----------------------------------
-`null`             | `NSNull`
-`true`, `false`    | `NSNumber.boolValue`
-Integer            | `NSNumber.unsignedLongLongValue`, `NSNumber.longLongValue`
-Floating-point number | `NSNumber.doubleValue`
-String             | `NSString`
+GeoJSON data type  | Objective-C representation | Swift representation
+-------------------|----------------------------|---------------------
+`null`             | `NSNull`                   | `NSNull`
+`true`, `false`    | `NSNumber.boolValue`       | `NSNumber.boolValue`
+Integer            | `NSNumber.unsignedLongLongValue`, `NSNumber.longLongValue` | `NSNumber.uint64Value`, `NSNumber.int64Value`
+Floating-point number | `NSNumber.doubleValue`  | `NSNumber.doubleValue`
+String             | `NSString`                 | `String`
