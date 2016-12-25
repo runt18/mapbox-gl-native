@@ -90,7 +90,7 @@ represented at runtime by an `MGLStyle` object, which provides access to various
 layers, respectively.
 
 The names of runtime styling classes and properties on iOS and macOS are
-generally consistent with the style specification and Mapbox Studio’s style
+generally consistent with the style specification and Mapbox Studio’s Styles
 editor. Any exceptions are listed in this document.
 
 To avoid conflicts with Objective-C keywords or Cocoa terminology, this SDK uses
