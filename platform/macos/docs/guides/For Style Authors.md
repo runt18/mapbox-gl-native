@@ -249,8 +249,8 @@ predicate format string:
 
 In style JSON | In the format string
 --------------|---------------------
-`has`         | `CONTAINS`
-`!has`        | `NOT(… CONTAINS …)`
+`has`         | `!= nil`
+`!has`        | `== nil`
 `==`          | `==`
 `!=`          | `!=`
 `>`           | `>`
