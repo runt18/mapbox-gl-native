@@ -130,12 +130,12 @@ public:
             mbgl::style::CameraFunction<MBGLType> cameraFunction = {intervalStops};
 
             return cameraFunction;
-        } else if ([value isKindOfClass:[MGLStyleSourceFunction class]]) {
-            MGLStyleSourceFunction<ObjCType> *function = (MGLStyleSourceFunction<ObjCType> *)value;
+        } else if ([value isKindOfClass:[MGLStyleSourceCategoricalFunction class]]) {
+            MGLStyleSourceCategoricalFunction<ObjCType> *function = (MGLStyleSourceCategoricalFunction<ObjCType> *)value;
 
             __block std::map<mbgl::style::CategoricalValue, MBGLType> stops = {};
 
-            [function.categoricalStops enumerateKeysAndObjectsUsingBlock:^(id categoryKey, MGLStyleValue<ObjCType> *stopValue, BOOL *stop) {
+            [function.stops enumerateKeysAndObjectsUsingBlock:^(id categoryKey, MGLStyleValue<ObjCType> *stopValue, BOOL *stop) {
                 NSCAssert([stopValue isKindOfClass:[MGLStyleValue class]], @"Stops should be MGLStyleValues");
                 auto mbglStopValue = toPropertyValue(stopValue);
                 NSCAssert(mbglStopValue.isConstant(), @"Stops must be constant");

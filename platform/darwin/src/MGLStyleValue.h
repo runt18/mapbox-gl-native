@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)valueWithRawValue:(T)rawValue;
 
+#pragma mark Camera function values
+
 /**
  Creates and returns an `MGLStyleFunction` object representing a linear zoom
  level function with any number of stops.
@@ -47,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)valueWithStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
 
+// TODO: deprecate in favor of the same API but with "exponentialStops"
 /**
  Creates and returns an `MGLStyleFunction` object representing a zoom level
  function with an exponential base and any number of stops.
@@ -58,10 +61,18 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)valueWithBase:(CGFloat)base stops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
 
 // TODO: API docs
-+ (instancetype)valueWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
++ (instancetype)valueWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)intervalStops;
+
+#pragma mark Source function values
 
 // TODO: API docs
 + (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue;
+
+// TODO: API docs
++ (instancetype)valueWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
+
+// TODO: API docs
++ (instancetype)valueWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
 
 @end
 
@@ -194,12 +205,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Creating a Style Interval Function
 
 // TODO: API docs
-+ (instancetype)functionWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
++ (instancetype)functionWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)intervalStops;
 
 #pragma mark Initializing a Style Interval Function
 
 // TODO: API docs
-- (instancetype)initWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)intervalStops NS_DESIGNATED_INITIALIZER;
 
 #pragma mark Accessing the Parameters of a Function
 
@@ -208,15 +219,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// TODO: API docs
-@interface MGLStyleSourceFunction<T> : MGLStyleValue<T>
+//todo: break MGLStyleSourceFunction into SourceCategorical, SourceExponential, SourceInterval, and SourceIdentity
 
-#pragma mark Creating a Style Interval Function
+// TODO: API docs
+@interface MGLStyleSourceCategoricalFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Source Function
 
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue;
 
-#pragma mark Initializing a Style Interval Function
+#pragma mark Initializing a Style Source Function
 
 // TODO: API docs
 - (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue NS_DESIGNATED_INITIALIZER;
@@ -227,10 +240,39 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *attributeName;
 
 // TODO: API docs
-@property (nonatomic, copy) NSDictionary<id, MGLStyleValue<T> *> *categoricalStops;
+@property (nonatomic, copy) NSDictionary<id, MGLStyleValue<T> *> *stops;
 
+// TODO: API docs
 @property (nonatomic, nullable) MGLStyleValue<T> *defaultValue;
 
+@end
+
+// TODO: API docs
+@interface MGLStyleSourceExponentialFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Source Function
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
+
+#pragma mark Initializing a Style Source Function
+
+// TODO: API docs
+- (instancetype)initWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Accessing the Parameters of a Function
+
+// TODO: API docs
+@property (nonatomic, copy) NSString *attributeName;
+
+// TODO: API docs
+@property (nonatomic) CGFloat base;
+
+// TODO: API docs
+@property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
 
 @end
 

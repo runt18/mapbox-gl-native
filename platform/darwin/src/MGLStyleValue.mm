@@ -14,12 +14,20 @@
     return [MGLStyleFunction functionWithStops:stops];
 }
 
-+ (instancetype)valueWithIntervalStops:(NSDictionary *)stops {
-    return [MGLStyleIntervalFunction functionWithIntervalStops:stops];
++ (instancetype)valueWithIntervalStops:(NSDictionary *)intervalStops {
+    return [MGLStyleIntervalFunction functionWithIntervalStops:intervalStops];
 }
 
 + (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)categoricalStops defaultValue:(id)defaultValue {
-    return [MGLStyleSourceFunction functionWithAttributeName:attributeName categoricalStops:categoricalStops defaultValue:defaultValue];
+    return [MGLStyleSourceCategoricalFunction functionWithAttributeName:attributeName categoricalStops:categoricalStops defaultValue:defaultValue];
+}
+
++ (instancetype)valueWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary *)exponentialStops {
+    return [MGLStyleSourceExponentialFunction functionWithAttributeName:attributeName exponentialStops:exponentialStops];
+}
+
++ (instancetype)valueWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary *)exponentialStops {
+    return [MGLStyleSourceExponentialFunction functionWithAttributeName:attributeName base:base exponentialStops:exponentialStops];
 }
 
 @end
@@ -134,15 +142,16 @@
 
 @end
 
-@implementation MGLStyleSourceFunction
+@implementation MGLStyleSourceCategoricalFunction
 
-#pragma mark Creating a Style Interval Function
+#pragma mark Creating a Style Source Function
 
+// TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)categoricalStops defaultValue:(id)defaultValue {
     return [[self alloc] initWithAttributeName:attributeName categoricalStops:categoricalStops defaultValue:defaultValue];
 }
 
-#pragma mark Initializing a Style Interval Function
+#pragma mark Initializing a Style Source Function
 
 - (instancetype)init {
     return [self initWithAttributeName:@"" categoricalStops:@{} defaultValue:nil];
@@ -151,7 +160,7 @@
 - (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)categoricalStops defaultValue:(id)defaultValue {
     if (self == [super init]) {
         _attributeName = attributeName;
-        _categoricalStops = categoricalStops;
+        _stops = categoricalStops;
         _defaultValue = defaultValue;
     }
     return self;
@@ -162,18 +171,74 @@
                                                  categoricalStops = %@ \
                                                  defaultValue = %@>",
             NSStringFromClass([self class]),
-            (void *)self, self.attributeName, self.categoricalStops, self.defaultValue];
+            (void *)self,
+            self.attributeName,
+            self.stops,
+            self.defaultValue];
 }
 
-- (BOOL)isEqual:(MGLStyleSourceFunction *)other {
+- (BOOL)isEqual:(MGLStyleSourceCategoricalFunction *)other {
     return ([other isKindOfClass:[self class]] &&
             [other.attributeName isEqual:self.attributeName] &&
-            [other.categoricalStops isEqualToDictionary:self.categoricalStops] &&
+            [other.stops isEqualToDictionary:self.stops] &&
             [other.defaultValue isEqual:self.defaultValue]);
 }
 
 - (NSUInteger)hash {
-    return self.attributeName.hash + self.categoricalStops.hash + self.defaultValue.hash;
+    return self.attributeName.hash + self.stops.hash + self.defaultValue.hash;
+}
+
+@end
+
+@implementation MGLStyleSourceExponentialFunction
+
+#pragma mark Creating a Style Source Function
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary *)exponentialStops {
+    return [[self alloc] initWithAttributeName:attributeName base:1.0 exponentialStops:exponentialStops];
+}
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary *)exponentialStops {
+    return [[self alloc] initWithAttributeName:attributeName base:base exponentialStops:exponentialStops];
+}
+
+#pragma mark Initializing a Style Source Function
+
+- (instancetype)init {
+    return [self initWithAttributeName:@"" base:0 exponentialStops:@{}];
+}
+
+- (instancetype)initWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary *)exponentialStops {
+    if (self == [super init]) {
+        _attributeName = attributeName;
+        _base = base;
+        _stops = exponentialStops;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, attributeName = %@, \
+                                                 stops = %@ \
+                                                 base = %f>",
+            NSStringFromClass([self class]),
+            (void *)self,
+            self.attributeName,
+            self.stops,
+            self.base];
+}
+
+- (BOOL)isEqual:(MGLStyleSourceExponentialFunction *)other {
+    return ([other isKindOfClass:[self class]] &&
+            [other.attributeName isEqual:self.attributeName] &&
+            [other.stops isEqualToDictionary:self.stops] &&
+            other.base == self.base);
+}
+
+- (NSUInteger)hash {
+    return self.attributeName.hash + self.stops.hash + self.base;
 }
 
 @end
