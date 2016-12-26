@@ -1661,21 +1661,23 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
     //                                                                              @12.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
     //                                                                              @18.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]] }];
 
-    // Data driven, categorical with string attribute key ✔︎
+    // Data driven, categorical with string attribute key and default ✔︎
     // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"color"
-    //                                                          categoricalStops:@{ @"red": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]],
-    //                                                                              @"blue": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
-    //                                                                              @"green": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],}];
+    //                                                          categoricalStops:@{ @"red": [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]]}
+    //                                                              defaultValue:[MGLStyleValue<UIColor *> valueWithRawValue:[UIColor yellowColor]]];
 
     // Data driven, categorical with integer attribute key ✔︎
     // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"temp"
     //                                                          categoricalStops:@{ [NSNumber numberWithInt:0]:   [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
-    //                                                                              [NSNumber numberWithInt:100]: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor orangeColor]] }];
+    //                                                                              [NSNumber numberWithInt:100]: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor orangeColor]] }
+    //                                                              defaultValue:nil];
 
     // Data driven, categorical with bool attribute key ✔︎
     // circleLayer.circleBlur = [MGLStyleValue<NSNumber *> valueWithAttributeName:@"fuzzy"
     //                                                          categoricalStops:@{ [NSNumber numberWithBool:@NO]:  [MGLStyleValue<NSNumber *> valueWithRawValue:[NSNumber numberWithDouble:2.0]],
-    //                                                                              [NSNumber numberWithBool:@YES]: [MGLStyleValue<NSNumber *> valueWithRawValue:[NSNumber numberWithDouble:2.0]] }];
+    //                                                                              [NSNumber numberWithBool:@YES]: [MGLStyleValue<NSNumber *> valueWithRawValue:[NSNumber numberWithDouble:2.0]] }
+    //                                                              defaultValue:nil];
+
 
 
 }

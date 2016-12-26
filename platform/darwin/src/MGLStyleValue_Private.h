@@ -135,7 +135,7 @@ public:
 
             __block std::map<mbgl::style::CategoricalValue, MBGLType> stops = {};
 
-            [function.stops enumerateKeysAndObjectsUsingBlock:^(id categoryKey, MGLStyleValue<ObjCType> *stopValue, BOOL *stop) {
+            [function.categoricalStops enumerateKeysAndObjectsUsingBlock:^(id categoryKey, MGLStyleValue<ObjCType> *stopValue, BOOL *stop) {
                 NSCAssert([stopValue isKindOfClass:[MGLStyleValue class]], @"Stops should be MGLStyleValues");
                 auto mbglStopValue = toPropertyValue(stopValue);
                 NSCAssert(mbglStopValue.isConstant(), @"Stops must be constant");
@@ -158,11 +158,14 @@ public:
                     }
                 }
             }];
-
             mbgl::style::CategoricalStops<MBGLType> categoricalStops = {stops};
-            // TODO: Default value?
-            // categoricalStops.defaultValue = mbglStopValue;
-
+            if (function.defaultValue) {
+                NSCAssert([function.defaultValue isKindOfClass:[MGLStyleConstantValue class]], @"Default value must be constant");
+                MBGLType mbglValue;
+                id mglValue = [(MGLStyleConstantValue<ObjCType> *)function.defaultValue rawValue];
+                getMBGLValue(mglValue, mbglValue);
+                categoricalStops.defaultValue = mbglValue;
+            }
             mbgl::style::SourceFunction<MBGLType> sourceFunction = {function.attributeName.UTF8String, categoricalStops};
             return sourceFunction;
         } else if (value) {

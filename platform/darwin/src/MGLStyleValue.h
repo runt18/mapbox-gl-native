@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)valueWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)stops;
 
 // TODO: API docs
-+ (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops;
++ (instancetype)valueWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue;
 
 @end
 
@@ -208,24 +208,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+// TODO: API docs
 @interface MGLStyleSourceFunction<T> : MGLStyleValue<T>
 
 #pragma mark Creating a Style Interval Function
 
 // TODO: API docs
-+ (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops;
++ (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue;
 
 #pragma mark Initializing a Style Interval Function
 
 // TODO: API docs
-- (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)stops NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue NS_DESIGNATED_INITIALIZER;
 
 #pragma mark Accessing the Parameters of a Function
 
+// TODO: API docs
 @property (nonatomic, copy) NSString *attributeName;
 
 // TODO: API docs
-@property (nonatomic, copy) NSDictionary<id, MGLStyleValue<T> *> *stops;
+@property (nonatomic, copy) NSDictionary<id, MGLStyleValue<T> *> *categoricalStops;
+
+@property (nonatomic, nullable) MGLStyleValue<T> *defaultValue;
 
 
 @end
