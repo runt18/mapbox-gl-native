@@ -168,6 +168,18 @@ public:
             }
             mbgl::style::SourceFunction<MBGLType> sourceFunction = {function.attributeName.UTF8String, categoricalStops};
             return sourceFunction;
+        } else if ([value isKindOfClass:[MGLStyleSourceExponentialFunction class]]) {
+            MGLStyleSourceExponentialFunction<ObjCType> *function = (MGLStyleSourceExponentialFunction<ObjCType> *)value;
+            __block std::map<float, MBGLType> stops = {};
+            [function.stops enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull zoomKey, MGLStyleValue<ObjCType> * _Nonnull stopValue, BOOL * _Nonnull stop) {
+                NSCAssert([stopValue isKindOfClass:[MGLStyleValue class]], @"Stops should be MGLStyleValues");
+                auto mbglStopValue = toPropertyValue(stopValue);
+                NSCAssert(mbglStopValue.isConstant(), @"Stops must be constant");
+                stops[zoomKey.floatValue] = mbglStopValue.asConstant();
+            }];
+            mbgl::style::ExponentialStops<MBGLType> exponentialStops = {stops, (float)function.base};
+            mbgl::style::SourceFunction<MBGLType> sourceFunction = {function.attributeName.UTF8String, exponentialStops};
+            return sourceFunction;
         } else if (value) {
             [NSException raise:@"MGLAbstractClassException" format:
              @"The style value %@ cannot be applied to the style. "
