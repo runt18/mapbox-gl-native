@@ -1940,6 +1940,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/test/MGLDocumentationExampleTests.swift",
 			);
 			name = "Add Examples to Documentation";
 			outputPaths = (
@@ -1954,6 +1955,7 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/test/MGLDocumentationExampleTests.swift",
 			);
 			name = "Add Examples to Documentation";
 			outputPaths = (
