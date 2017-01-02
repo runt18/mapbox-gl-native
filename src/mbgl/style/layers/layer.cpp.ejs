@@ -48,6 +48,10 @@ std::unique_ptr<Layer> <%- camelize(type) %>Layer::Impl::cloneRef(const std::str
 <% if (type !== 'background') { -%>
 // Source
 
+void <%- camelize(type) %>Layer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& <%- camelize(type) %>Layer::getSourceID() const {
     return impl->source;
 }
