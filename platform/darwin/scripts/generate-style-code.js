@@ -368,31 +368,31 @@ global.mbglType = function(property) {
 const layerH = ejs.compile(fs.readFileSync('platform/darwin/src/MGLStyleLayer.h.ejs', 'utf8'), { strict: true });
 const layerM = ejs.compile(fs.readFileSync('platform/darwin/src/MGLStyleLayer.mm.ejs', 'utf8'), { strict: true});
 const testLayers = ejs.compile(fs.readFileSync('platform/darwin/test/MGLStyleLayerTests.m.ejs', 'utf8'), { strict: true});
-const categoryH = ejs.compile(fs.readFileSync('platform/darwin/src/NSValue+MGLStyleEnumAttributeAdditions.h.ejs', 'utf8'), { strict: true});
-const categoryM = ejs.compile(fs.readFileSync('platform/darwin/src/NSValue+MGLStyleEnumAttributeAdditions.mm.ejs', 'utf8'), { strict: true});
+const categoryH = ejs.compile(fs.readFileSync('platform/darwin/src/NSValue+MGLStyleLayerAdditions.h.ejs', 'utf8'), { strict: true});
+const categoryM = ejs.compile(fs.readFileSync('platform/darwin/src/NSValue+MGLStyleLayerAdditions.mm.ejs', 'utf8'), { strict: true});
 
-const layers = Object.keys(spec.layer.type.values).map((type) => {
-    const layoutProperties = Object.keys(spec[`layout_${type}`]).reduce((memo, name) => {
+const layers = _(spec.layer.type.values).map((value, layerType) => {
+    const layoutProperties = Object.keys(spec[`layout_${layerType}`]).reduce((memo, name) => {
         if (name !== 'visibility') {
-            spec[`layout_${type}`][name].name = name;
-            memo.push(spec[`layout_${type}`][name]);
+            spec[`layout_${layerType}`][name].name = name;
+            memo.push(spec[`layout_${layerType}`][name]);
         }
         return memo;
     }, []);
 
-    const paintProperties = Object.keys(spec[`paint_${type}`]).reduce((memo, name) => {
-        spec[`paint_${type}`][name].name = name;
-        memo.push(spec[`paint_${type}`][name]);
+    const paintProperties = Object.keys(spec[`paint_${layerType}`]).reduce((memo, name) => {
+        spec[`paint_${layerType}`][name].name = name;
+        memo.push(spec[`paint_${layerType}`][name]);
         return memo;
     }, []);
 
     return {
-        doc: spec.layer.type.values[type].doc,
-        type: type,
+        doc: spec.layer.type.values[layerType].doc,
+        type: layerType,
         layoutProperties: _.sortBy(layoutProperties, ['name']),
         paintProperties: _.sortBy(paintProperties, ['name']),
     };
-});
+}).sortBy(['type']).value();
 
 function duplicatePlatformDecls(src) {
     // Look for a documentation comment that contains “MGLColor” and the
@@ -413,28 +413,24 @@ ${macosComment}${decl}
     });
 }
 
-var allLayoutProperties = [];
-var allPaintProperties = [];
-var allTypes = [];
+let enumPropertiesByLayerType = {};
 
 for (var layer of layers) {
-    allLayoutProperties.push(layer.layoutProperties);
-    allPaintProperties.push(layer.paintProperties);
-    allTypes.push(layer.type);
-    const containsEnumerationProperties =  _.filter(layer.layoutProperties, function(property){ return property["type"] === "enum"; }).length  || _.filter(layer.paintProperties, function(property){ return property["type"] === "enum"; }).length;
-    layer.containsEnumerationProperties = containsEnumerationProperties;
+    let properties = _.filter(_.concat(layer.layoutProperties, layer.paintProperties),
+                              prop => prop.type === 'enum');
+    if (properties.length) {
+        enumPropertiesByLayerType[layer.type] = properties;
+        layer.containsEnumerationProperties = true;
+    }
     
     fs.writeFileSync(`platform/darwin/src/${prefix}${camelize(layer.type)}${suffix}.h`, duplicatePlatformDecls(layerH(layer)));
     fs.writeFileSync(`platform/darwin/src/${prefix}${camelize(layer.type)}${suffix}.mm`, layerM(layer));
     fs.writeFileSync(`platform/darwin/test/${prefix}${camelize(layer.type)}${suffix}Tests.m`, testLayers(layer));
 }
 
-fs.writeFileSync(`platform/darwin/src/NSValue+MGLStyleEnumAttributeAdditions.h`, categoryH({
-    layoutProperties: _.flatten(allLayoutProperties),
-    paintProperties: _.flatten(allPaintProperties),
-    types: allTypes
+fs.writeFileSync(`platform/darwin/src/NSValue+MGLStyleLayerAdditions.h`, categoryH({
+    enumPropertiesByLayerType: enumPropertiesByLayerType,
 }));
-fs.writeFileSync(`platform/darwin/src/NSValue+MGLStyleEnumAttributeAdditions.mm`, categoryM({
-    layoutProperties: _.flatten(allLayoutProperties),
-    paintProperties: _.flatten(allPaintProperties)
+fs.writeFileSync(`platform/darwin/src/NSValue+MGLStyleLayerAdditions.mm`, categoryM({
+    enumPropertiesByLayerType: enumPropertiesByLayerType,
 }));
