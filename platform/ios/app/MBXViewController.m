@@ -1682,6 +1682,11 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
     // Data driven, source exponential (compiles and runs but it causes circles to not be drawn)
     // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"special" exponentialStops:@{ @0.0:  [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
     //                                                                                                          @15.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]] }];
+
+    // Data driven, source interval (compiles and runs but it causes circles to not be drawn)
+    // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"special" intervalStops: @{ @0.0:  [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
+    //                                                                                                         @12.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
+    //                                                                                                        @18.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]] }];
 }
 
 @end

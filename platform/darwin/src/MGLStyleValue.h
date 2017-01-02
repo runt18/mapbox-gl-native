@@ -74,6 +74,9 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 + (instancetype)valueWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
 
+// TODO: API docs
++ (instancetype)valueWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops;
+
 @end
 
 /**
@@ -270,6 +273,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: API docs
 @property (nonatomic) CGFloat base;
+
+// TODO: API docs
+@property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
+
+@end
+
+// TODO: API docs
+@interface MGLStyleSourceIntervalFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Source Function
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops;
+
+#pragma mark Initializing a Style Source Function
+
+// TODO: API docs
+- (instancetype)initWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Accessing the Parameters of a Function
+
+// TODO: API docs
+@property (nonatomic, copy) NSString *attributeName;
 
 // TODO: API docs
 @property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
