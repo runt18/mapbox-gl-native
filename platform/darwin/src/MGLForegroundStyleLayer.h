@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Identifier of the source from which the receiver obtains the data to style.
  */
-@property (nonatomic, readonly, nullable) NSString *sourceIdentifier;
+@property (nonatomic, nullable) NSString *sourceIdentifier;
 
 @end
 

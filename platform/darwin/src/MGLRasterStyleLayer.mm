@@ -41,6 +41,20 @@
     super.rawLayer = rawLayer;
 }
 
+- (void)setSourceIdentifier:(NSString * _Nullable)sourceIdentifier
+{
+    MGLAssertStyleLayerIsValid();
+    
+    self.rawLayer->setSourceID(sourceIdentifier.UTF8String ?: "");
+}
+
+- (NSString *)sourceIdentifier
+{
+    MGLAssertStyleLayerIsValid();
+    
+    return @(self.rawLayer->getSourceID().c_str());
+}
+
 #pragma mark - Adding to and removing from a map view
 
 - (void)addToMapView:(MGLMapView *)mapView belowLayer:(MGLStyleLayer *)otherLayer

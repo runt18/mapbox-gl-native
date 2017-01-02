@@ -54,6 +54,20 @@ namespace mbgl {
     super.rawLayer = rawLayer;
 }
 
+- (void)setSourceIdentifier:(NSString * _Nullable)sourceIdentifier
+{
+    MGLAssertStyleLayerIsValid();
+    
+    self.rawLayer->setSourceID(sourceIdentifier.UTF8String ?: "");
+}
+
+- (NSString *)sourceIdentifier
+{
+    MGLAssertStyleLayerIsValid();
+    
+    return @(self.rawLayer->getSourceID().c_str());
+}
+
 - (NSString *)sourceLayerIdentifier
 {
     MGLAssertStyleLayerIsValid();
