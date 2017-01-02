@@ -34,6 +34,10 @@ std::unique_ptr<Layer> SymbolLayer::Impl::cloneRef(const std::string& id_) const
 
 // Source
 
+void SymbolLayer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& SymbolLayer::getSourceID() const {
     return impl->source;
 }

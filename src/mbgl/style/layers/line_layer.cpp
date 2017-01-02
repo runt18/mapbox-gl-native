@@ -34,6 +34,10 @@ std::unique_ptr<Layer> LineLayer::Impl::cloneRef(const std::string& id_) const {
 
 // Source
 
+void LineLayer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& LineLayer::getSourceID() const {
     return impl->source;
 }

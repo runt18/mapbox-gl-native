@@ -34,6 +34,10 @@ std::unique_ptr<Layer> CircleLayer::Impl::cloneRef(const std::string& id_) const
 
 // Source
 
+void CircleLayer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& CircleLayer::getSourceID() const {
     return impl->source;
 }

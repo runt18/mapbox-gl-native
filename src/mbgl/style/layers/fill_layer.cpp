@@ -34,6 +34,10 @@ std::unique_ptr<Layer> FillLayer::Impl::cloneRef(const std::string& id_) const {
 
 // Source
 
+void FillLayer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& FillLayer::getSourceID() const {
     return impl->source;
 }

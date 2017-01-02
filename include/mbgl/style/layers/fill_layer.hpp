@@ -18,6 +18,7 @@ public:
 
     // Source
     const std::string& getSourceID() const;
+    void setSourceID(const std::string& sourceID);
     const std::string& getSourceLayer() const;
     void setSourceLayer(const std::string& sourceLayer);
 

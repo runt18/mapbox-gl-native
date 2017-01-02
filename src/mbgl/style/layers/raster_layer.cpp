@@ -34,6 +34,10 @@ std::unique_ptr<Layer> RasterLayer::Impl::cloneRef(const std::string& id_) const
 
 // Source
 
+void RasterLayer::setSourceID(const std::string& sourceID) {
+    impl->source = sourceID;
+}
+
 const std::string& RasterLayer::getSourceID() const {
     return impl->source;
 }
