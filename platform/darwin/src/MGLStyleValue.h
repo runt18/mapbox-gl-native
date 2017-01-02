@@ -77,6 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 + (instancetype)valueWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops;
 
+// TODO: API docs
++ (instancetype)valueWithAttributeName:(NSString *)attributeName;
+
 @end
 
 /**
@@ -215,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 - (instancetype)initWithIntervalStops:(NSDictionary<NSNumber *, MGLStyleValue<T> *> *)intervalStops NS_DESIGNATED_INITIALIZER;
 
-#pragma mark Accessing the Parameters of a Function
+#pragma mark Accessing the Parameters of a Style Interval Function
 
 // TODO: API docs
 @property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
@@ -227,17 +230,17 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 @interface MGLStyleSourceCategoricalFunction<T> : MGLStyleValue<T>
 
-#pragma mark Creating a Style Source Function
+#pragma mark Creating a Style Source Categorical Function
 
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue;
 
-#pragma mark Initializing a Style Source Function
+#pragma mark Initializing a Style Source Categorical Function
 
 // TODO: API docs
 - (instancetype)initWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary<id, MGLStyleValue<T> *> *)categoricalStops defaultValue:(MGLStyleValue<T> * _Nullable)defaultValue NS_DESIGNATED_INITIALIZER;
 
-#pragma mark Accessing the Parameters of a Function
+#pragma mark Accessing the Parameters of a Style Source Categorical Function
 
 // TODO: API docs
 @property (nonatomic, copy) NSString *attributeName;
@@ -253,7 +256,7 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 @interface MGLStyleSourceExponentialFunction<T> : MGLStyleValue<T>
 
-#pragma mark Creating a Style Source Function
+#pragma mark Creating a Style Source Exponential Function
 
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
@@ -261,12 +264,12 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops;
 
-#pragma mark Initializing a Style Source Function
+#pragma mark Initializing a Style Source Exponential Function
 
 // TODO: API docs
 - (instancetype)initWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary<id, MGLStyleValue<T> *> *)exponentialStops NS_DESIGNATED_INITIALIZER;
 
-#pragma mark Accessing the Parameters of a Function
+#pragma mark Accessing the Parameters of a Style Source Exponential Function
 
 // TODO: API docs
 @property (nonatomic, copy) NSString *attributeName;
@@ -282,23 +285,43 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: API docs
 @interface MGLStyleSourceIntervalFunction<T> : MGLStyleValue<T>
 
-#pragma mark Creating a Style Source Function
+#pragma mark Creating a Style Source Interval Function
 
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops;
 
-#pragma mark Initializing a Style Source Function
+#pragma mark Initializing a Style Source Interval Function
 
 // TODO: API docs
 - (instancetype)initWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary<id, MGLStyleValue<T> *> *)intervalStops NS_DESIGNATED_INITIALIZER;
 
-#pragma mark Accessing the Parameters of a Function
+#pragma mark Accessing the Parameters of a Style Source Interval Function
 
 // TODO: API docs
 @property (nonatomic, copy) NSString *attributeName;
 
 // TODO: API docs
 @property (nonatomic, copy) NSDictionary<NSNumber *, MGLStyleValue<T> *> *stops;
+
+@end
+
+// TODO: API docs
+@interface MGLStyleSourceIdentityFunction<T> : MGLStyleValue<T>
+
+#pragma mark Creating a Style Source Identity Function
+
+// TODO: API docs
++ (instancetype)functionWithAttributeName:(NSString *)attributeName;
+
+#pragma mark Initializing a Style Source Identity Function
+
+// TODO: API docs
+- (instancetype)initWithAttributeName:(NSString *)attributeName NS_DESIGNATED_INITIALIZER;
+
+#pragma mark Accessing the Parameters of a Style Source Identity Function
+
+// TODO: API docs
+@property (nonatomic, copy) NSString *attributeName;
 
 @end
 

@@ -192,6 +192,11 @@ public:
             mbgl::style::IntervalStops<MBGLType> intervalStops = {stops};
             mbgl::style::SourceFunction<MBGLType> sourceFunction = {function.attributeName.UTF8String, intervalStops};
             return sourceFunction;
+        } else if ([value isKindOfClass:[MGLStyleSourceIdentityFunction class]]) {
+            MGLStyleSourceIdentityFunction<ObjCType> *function = (MGLStyleSourceIdentityFunction<ObjCType> *)value;
+            mbgl::style::IdentityStops<MBGLType> identityStops;
+            mbgl::style::SourceFunction<MBGLType> sourceFunction = {function.attributeName.UTF8String, identityStops};
+            return sourceFunction;
         } else if (value) {
             [NSException raise:@"MGLAbstractClassException" format:
              @"The style value %@ cannot be applied to the style. "

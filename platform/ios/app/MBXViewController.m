@@ -1645,7 +1645,7 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
 // Temp
 - (void)mapViewDidFinishLoadingMap:(MGLMapView *)mapView
 {
-    MGLCircleStyleLayer *circleLayer = (MGLCircleStyleLayer *)[self.mapView.style layerWithIdentifier:@"rgb-8wbkum"];
+    MGLCircleStyleLayer *circleLayer = (MGLCircleStyleLayer *)[self.mapView.style layerWithIdentifier:@"rgb-7q5w7f"];
 
     // Data driven, constant ✔︎
     // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]];
@@ -1687,6 +1687,10 @@ typedef NS_ENUM(NSInteger, MBXSettingsMiscellaneousRows) {
     // circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"special" intervalStops: @{ @0.0:  [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor redColor]],
     //                                                                                                         @12.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor greenColor]],
     //                                                                                                        @18.0: [MGLStyleValue<UIColor *> valueWithRawValue:[UIColor blueColor]] }];
+
+    // Data driven, source identity for both number and color ✔︎
+    circleLayer.circleRadius = [MGLStyleValue<NSNumber *> valueWithAttributeName:@"size"];
+    circleLayer.circleColor = [MGLStyleValue<UIColor *> valueWithAttributeName:@"hexColor"];
 }
 
 @end

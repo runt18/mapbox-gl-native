@@ -34,6 +34,10 @@
     return [MGLStyleSourceIntervalFunction functionWithAttributeName:attributeName intervalStops:intervalStops];
 }
 
++ (instancetype)valueWithAttributeName:(NSString *)attributeName {
+    return [MGLStyleSourceIdentityFunction functionWithAttributeName:attributeName];
+}
+
 @end
 
 @implementation MGLStyleConstantValue
@@ -113,13 +117,9 @@
 
 @implementation MGLStyleIntervalFunction
 
-#pragma mark Creating a Style Interval Function
-
 + (instancetype)functionWithIntervalStops:(NSDictionary *)stops {
     return [[self alloc] initWithIntervalStops:stops];
 }
-
-#pragma mark Initializing a Style Interval Function
 
 - (instancetype)init {
     return [self initWithIntervalStops:@{}];
@@ -148,14 +148,10 @@
 
 @implementation MGLStyleSourceCategoricalFunction
 
-#pragma mark Creating a Style Source Categorical Function
-
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName categoricalStops:(NSDictionary *)categoricalStops defaultValue:(id)defaultValue {
     return [[self alloc] initWithAttributeName:attributeName categoricalStops:categoricalStops defaultValue:defaultValue];
 }
-
-#pragma mark Initializing a Style Source Categorical Function
 
 - (instancetype)init {
     return [self initWithAttributeName:@"" categoricalStops:@{} defaultValue:nil];
@@ -196,8 +192,6 @@
 
 @implementation MGLStyleSourceExponentialFunction
 
-#pragma mark Creating a Style Source Exponential Function
-
 // TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName exponentialStops:(NSDictionary *)exponentialStops {
     return [[self alloc] initWithAttributeName:attributeName base:1.0 exponentialStops:exponentialStops];
@@ -207,8 +201,6 @@
 + (instancetype)functionWithAttributeName:(NSString *)attributeName base:(CGFloat)base exponentialStops:(NSDictionary *)exponentialStops {
     return [[self alloc] initWithAttributeName:attributeName base:base exponentialStops:exponentialStops];
 }
-
-#pragma mark Initializing a Style Source Exponential Function
 
 - (instancetype)init {
     return [self initWithAttributeName:@"" base:0 exponentialStops:@{}];
@@ -249,14 +241,9 @@
 
 @implementation MGLStyleSourceIntervalFunction
 
-#pragma mark Creating a Style Source Interval Function
-
-// TODO: API docs
 + (instancetype)functionWithAttributeName:(NSString *)attributeName intervalStops:(NSDictionary *)intervalStops {
     return [[self alloc] initWithAttributeName:attributeName intervalStops:intervalStops];
 }
-
-#pragma mark Initializing a Style Source Exponential Function
 
 - (instancetype)init {
     return [self initWithAttributeName:@"" intervalStops:@{}];
@@ -287,6 +274,41 @@
 
 - (NSUInteger)hash {
     return self.attributeName.hash + self.stops.hash;
+}
+
+@end
+
+@implementation MGLStyleSourceIdentityFunction
+
++ (instancetype)functionWithAttributeName:(NSString *)attributeName{
+    return [[self alloc] initWithAttributeName:attributeName];
+}
+
+- (instancetype)init {
+    return [self initWithAttributeName:@""];
+}
+
+- (instancetype)initWithAttributeName:(NSString *)attributeName {
+    if (self == [super init]) {
+        _attributeName = attributeName;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p, attributeName = %@>",
+            NSStringFromClass([self class]),
+            (void *)self,
+            self.attributeName];
+}
+
+- (BOOL)isEqual:(MGLStyleSourceExponentialFunction *)other {
+    return ([other isKindOfClass:[self class]] &&
+            [other.attributeName isEqual:self.attributeName]);
+}
+
+- (NSUInteger)hash {
+    return self.attributeName.hash;
 }
 
 @end
