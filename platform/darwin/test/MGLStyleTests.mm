@@ -249,4 +249,18 @@
     XCTAssert([[layers[4] identifier] isEqualToString:layer4.identifier]);
 }
 
+- (void)testSourceIdentifier {
+    MGLShapeSource *source1 = [[MGLShapeSource alloc] initWithIdentifier:@"source1" shape:nil options:nil];
+    MGLShapeSource *source2 = [[MGLShapeSource alloc] initWithIdentifier:@"source2" shape:nil options:nil];
+    
+    [self.mapView.style addSource:source1];
+    [self.mapView.style addSource:source2];
+    
+    MGLLineStyleLayer *lineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"line1" source:source1];
+    [self.mapView.style addLayer:lineLayer];
+    
+    lineLayer.sourceIdentifier = @"source2";
+    XCTAssertEqualObjects(lineLayer.sourceIdentifier, @"source2");
+}
+
 @end
